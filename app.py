@@ -29,14 +29,19 @@ def login_required(f):
 @login_required
 def home():
 	
-	if request.method == 'POST':
-		if request.form['title'] and request.form['post']:
-			print request.form['title']
-			print request.form['post']
-		 	db.session.add(BlogPost(request.form['title'], request.form['post']))
-		 	db.session.commit()
+	posts = []
 
-	posts = db.session.query(BlogPost).all()
+	try:
+		if request.method == 'POST':
+			if request.form['title'] and request.form['post']:
+				print request.form['title']
+				print request.form['post']
+			 	db.session.add(BlogPost(request.form['title'], request.form['post']))
+			 	db.session.commit()
+
+		posts = db.session.query(BlogPost).all()
+	except:
+		flash("Some error in db")
 	return render_template("index.html", posts=posts)
 
 @app.route('/welcome')
