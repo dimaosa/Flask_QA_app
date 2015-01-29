@@ -1,18 +1,17 @@
-from flask import Flask, flash, redirect, session, url_for, render_template, request
-from flask.ext.sqlalchemy import SQLAlchemy 
+from project import app, db
+from project.models import BlogPost
+from flask import flash, redirect, session, url_for, render_template, request, Blueprint
 from functools import wraps
-import os
 
-### config ###
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
-db = SQLAlchemy(app)
+################
+#### config ####
+################
 
-from models import *
-from project.users.views import users_blueprint
+home_blueprint = Blueprint(
+    'home', __name__,
+    template_folder='templates'
+)
 
-
-app.register_blueprint(users_blueprint)
 
 
 ### helper function ###
@@ -28,7 +27,7 @@ def login_required(test):
 
 ### routes ###
 
-@app.route('/', methods=['GET', 'POST'])
+@home_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
 
@@ -40,16 +39,14 @@ def home():
 				flash(request.form['post'])
 			 	db.session.add(BlogPost(request.form['title'], request.form['post']))
 			 	db.session.commit()
+			else:
+				flash("Enter both title and post")
 	except:
 		flash("Some error in db")
 
  	posts = db.session.query(BlogPost).all()
 	return render_template("index.html", posts=posts)
 
-@app.route('/welcome')
+@home_blueprint.route('/welcome')
 def welcome():
 	return render_template("welcome.html")
-
-### run server ###
-if __name__ == '__main__':
-	app.run()

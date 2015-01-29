@@ -17,10 +17,14 @@
 	{% endif %}
 
 	<!-- Messages -->
-	{% for message in get_flashed_messages() %}
-	{{ message }}
-	{% endfor %}
-
+	{% if get_flashed_messages()%}
+		<strong>Sys Logs:</strong> <br>
+		<ul></ul>
+		{% for message in get_flashed_messages() %}
+			<li>      {{ message }}</li>
+		{% endfor %}
+		<ul></ul>
+	{% endif %}
 	</div>
 
 </body>

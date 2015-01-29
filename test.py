@@ -1,4 +1,4 @@
-from app import app
+from project import app
 import unittest
 
 
@@ -22,7 +22,7 @@ class FlaskTestCase(unittest.TestCase):
 			data=dict(username="admin", password="admin"), 
 			follow_redirects = True
 		)
-		self.assertIn(b'You were just logged in!', response.data)
+		self.assertIn(b'You were logged in', response.data)
 	#ensure login behaves correctly given incorrect credentials
 	#ensure logout
 
