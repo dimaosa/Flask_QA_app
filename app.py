@@ -32,16 +32,17 @@ def home():
 
 	try:
 		if request.method == 'POST':
+			flash("I am in POST")
 			if request.form['title'] and request.form['post']:
-				print request.form['title']
-				print request.form['post']
+				flash(request.form['title'])
+				flash(request.form['post'])
 			 	db.session.add(BlogPost(request.form['title'], request.form['post']))
 			 	db.session.commit()
 
 		posts = db.session.query(BlogPost).all()
 	except:
 		flash("Some error in db")
-		
+
 	return render_template("index.html", posts=posts)
 
 @app.route('/welcome')
