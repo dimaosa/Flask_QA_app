@@ -1,29 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome to Flask!</h2>
-  <br>
-  <p>Click <a href="/logout">here</a> to logout.</p>
+<h1>Welcome to Questions and Answers</h2>
 
+  {% if current_user.is_authenticated() %}
   <h3>Add Post</h3>
   <br>
-      <form action="" method="post">
-        <strong>Title:</strong><input type="text" name="title" value="{{
-          request.form.title }}">
-          <br>
-         <strong>Post:</strong><input type="text" name="post" value="{{
-          request.form.post }}">
-          <br><br>
-        <input class="btn btn-default" type="submit" value="Post your Post">
-      </form>
+  <form action="" method="post" class="disabled">
+    <strong>Title:</strong><input type="text" name="title" value="{{
+    request.form.title }}">
+    <br>
+    <strong>Post:</strong><input type="text" name="post" value="{{
+    request.form.post }}">
+    <br><br>
+    <input class="btn btn-default" type="submit" value="Post your Post">
+  </form>
+  {% else %}
+  <p>
+   <p>Login to 
+    <ul>
+      <li>Ask Questions</li>
+      <li>Answer Questions</li>
+      <li>Vote for questions</li>
+    </ul>
+  </p>
+</p>
 
-  <br><br>
-  <h3>Posts:</h3>
-  {% for post in posts %}
-    <strong>Number: </strong> {{ post.id          }} <br>
-    <strong>Author: </strong> {{ post.author.name }} <br>
-    <strong>Title:  </strong> {{ post.title       }} <br>
-    <strong>Post:   </strong> {{ post.description }} <br>
-  <br>
-  {% endfor%}
+{% endif %}
+<br><br>
+<h3>Posts:</h3>
+{% for post in posts %}
+<strong>Number: </strong> {{ post.id          }} <br>
+<strong>Author: </strong> {{ post.author.name }} <br>
+<strong>Title:  </strong> {{ post.title       }} <br>
+<strong>Post:   </strong> {{ post.description }} <br>
+<br>
+{% endfor%}
 
 {% endblock content %}
