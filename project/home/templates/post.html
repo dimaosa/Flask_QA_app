@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Post:</h3>
+
+<strong>Number: </strong> {{ post.id          }} <br>
+<strong>Author: </strong> {{ user.username }} <br>
+<strong>Title:  </strong> {{ post.title       }} <br>
+<strong>Post:   </strong> {{ post.description }} <br>
+<br>
+
+{% endblock content %}

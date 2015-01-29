@@ -1,5 +1,7 @@
 from project import db, bcrypt
 
+from datetime import datetime
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -28,7 +30,7 @@ class User(db.Model):
 	name = db.Column(db.String, nullable=False)
 	email = db.Column(db.String, nullable=False)
 	password = db.Column(db.String, nullable=False)
-	post = relationship("BlogPost", backref="author")
+	post = db.relationship("BlogPost", backref="author")
 
 	def __init__(self, name, email, password):
 		self.name = name
@@ -50,6 +52,24 @@ class User(db.Model):
 	def __repr__(self):
 		return '{} - {}'.format(self.name, self.email)
 
+class Answer(db.Model):
+
+	__tablename__ = "answers"
+
+	id = db.Column(db.Integer, primary_key=True)
+	answer = db.Column(db.String, nullable=False)
+	pub_date = db.Column(db.DateTime)
+	votes = db.Column(db.Integer)
+	author_name = db.Column(db.Integer, ForeignKey('users.id'))
+
+	def __init__(self, answer, pub_date=None):
+		self.title = title
+		self.body = body
+		if pub_date is None:
+			pub_date = datetime.utcnow()
+		self.pub_date = pub_date
+	def __repr__(self):
+		return '<Answer - {}, Author - {}>'.format(self.answer, self.author)
 
 
 

@@ -5,14 +5,31 @@
   {% if current_user.is_authenticated() %}
   <h3>Add Post</h3>
   <br>
-  <form action="" method="post" class="disabled">
-    <strong>Title:</strong><input type="text" name="title" value="{{
-    request.form.title }}">
-    <br>
-    <strong>Post:</strong><input type="text" name="post" value="{{
-    request.form.post }}">
-    <br><br>
-    <input class="btn btn-default" type="submit" value="Post your Post">
+
+
+  <form class="form-register" role="form" method="post" action="">
+    {{ form.csrf_token }}
+    <p>
+      {{ form.title(placeholder="title", style="width:400px", class="form-control") }}
+      <span class="error">
+        {% if form.title.errors %}
+        {% for error in form.title.errors %}
+        {{ error }}
+        {% endfor %}
+        {% endif %}
+      </span>
+    </p>
+    <p>
+      {{ form.post(placeholder="post", style="width:400px;height:100px;", class="form-control", rows="3") }}
+      <span class="error">
+        {% if form.post.errors %}
+        {% for error in form.post.errors %}
+        {{ error }}
+        {% endfor %}
+        {% endif %}
+      </span>
+    </p>
+    <button class="btn btn-default" type="submit">Post your Post</button>
   </form>
   {% else %}
   <p>
@@ -29,10 +46,19 @@
 <br><br>
 <h3>Posts:</h3>
 {% for post in posts %}
-<strong>Number: </strong> {{ post.id          }} <br>
-<strong>Author: </strong> {{ post.author.name }} <br>
-<strong>Title:  </strong> {{ post.title       }} <br>
-<strong>Post:   </strong> {{ post.description }} <br>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-1">
+      <span class="text-center">Answers</span>
+      <p class="badge text-block">14</p>
+    </div>
+    <div class="col-md-11">
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.description }}</p>
+      <p><a class="btn btn-primary btn-lg" href="/post/{{ post.id }}" role="button">Learn more</a></p>
+    </div>
+  </div>
+</div>
 <br>
 {% endfor%}
 
