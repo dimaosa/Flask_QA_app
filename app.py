@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 
 from flask.ext.sqlalchemy import SQLAlchemy 
 from functools import wraps
-import sqlite3
 
 app = Flask(__name__)
 #import different config for diffferent env
@@ -42,6 +41,7 @@ def home():
 		posts = db.session.query(BlogPost).all()
 	except:
 		flash("Some error in db")
+		
 	return render_template("index.html", posts=posts)
 
 @app.route('/welcome')
