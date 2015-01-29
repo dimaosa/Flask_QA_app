@@ -1,0 +1,11 @@
+1. setup postgers
+2. change the env variable
+3. setup our database - db_crate.py
+
+Steps to encrypy passwords:
+ 1. update app.py to setup bcrypt
+ 2. Update User model to hash the pass
+ 3. Apply the model changes to our database with a db migration
+ 4. DELETE all data in the users table within the postgres shell
+ 5. Add new users to the table
+ 6. Manually Test to ensure pass are hashed
