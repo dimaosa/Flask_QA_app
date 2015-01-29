@@ -5,9 +5,10 @@ from functools import wraps
 import sqlite3
 
 app = Flask(__name__)
-
-app.secret_key = "brwoptncgivj27588Un7hB7uJ&&&*8uyh69hv)G*&CB48"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+#import different config for diffferent env
+import os
+app.config.from_object(os.environ['APP_SETTINGS'])
+print os.environ['APP_SETTINGS']
 
 # create the sqlalchemy object
 db = SQLAlchemy(app)
@@ -73,6 +74,6 @@ def logout():
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run()
 
 
