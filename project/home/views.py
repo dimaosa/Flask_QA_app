@@ -13,7 +13,10 @@ home_blueprint = Blueprint(
     template_folder='templates'
 )
 
-### routes ###
+
+################
+#### routes ####
+################
 @home_blueprint.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
 
@@ -46,6 +49,3 @@ def home():
  	posts = reversed(posts)
 	return render_template("index.html", form=form, posts=posts)
 
-@home_blueprint.route('/welcome')
-def welcome():
-	return render_template("welcome.html")

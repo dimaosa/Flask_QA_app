@@ -3,9 +3,6 @@
 <h1>Welcome to Questions and Answers</h2>
 
   {% if current_user.is_authenticated() %}
-  <h3>Add Post</h3>
-  <br>
-
 
   <form class="form-register" role="form" method="post" action="">
     {{ form.csrf_token }}
@@ -43,13 +40,12 @@
 </p>
 
 {% endif %}
-<br><br>
-<h3>Posts:</h3>
+<br>
 {% for post in posts %}
 <div class="jumbotron">
   <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
-  <p><a class="btn btn-primary btn-lg" href="/post/{{ post.id }}" role="button">Learn more</a></p>
+  <p><a class="btn btn-primary btn-lg" href="/post/{{ post.id }}" role="button">Open</a></p>
   <span>{{ post.pub_date.ctime() }}</span>
   <p class="text-right">posted by: {{ post.author.name }}</p>
 </div>
