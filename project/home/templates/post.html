@@ -7,7 +7,7 @@
   <span>{{ post.pub_date.ctime() }}</span>
   <p class="text-right">posted by: {{ post.author.name }}</p>
 </div>
-
+{% if current_user.is_authenticated() %}
 <form class="form-register" role="form" method="post" action="">
     {{ form.csrf_token }}
     <p>
@@ -22,7 +22,7 @@
     </p>
     <button class="btn btn-primary disabled" type="submit">Post</button>
 </form>
-
+{% endif %}
 {% for answer in post.answers %}
 
 {% endfor %}
