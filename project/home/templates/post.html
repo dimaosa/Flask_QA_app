@@ -30,7 +30,7 @@
 {% for answer in answers %}
 <div class="jumbotron">
   <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-1 col-xs-2">
 
       <form method="post" action="">
         <button type="button" class="btn btn-success btn-lg" type="submit" value="{{ answer.id }} , True">
@@ -43,7 +43,7 @@
         </button>
       </form>
     </div>
-    <div class="col-md-11">
+    <div class="col-md-11 col-xs-10">
       <p>{{ answer.answer }}</p>
       <span>{{ answer.pub_date.ctime() }}</span>
       <p class="text-right">posted by: {{ answer.author.name }}</p>
