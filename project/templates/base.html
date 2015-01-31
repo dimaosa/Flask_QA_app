@@ -2,7 +2,7 @@
 <head>
 	<title>Q&#38A</title>
 	<meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 				<a class="navbar-brand" href="{{ url_for('home.home') }}">Q&#38A</a>
 			</div>
 			{% if current_user.is_authenticated() %}
-			<p class="navbar-text">Signed in as <a href="{{ url_for('users.profile')}}" class="navbar-link">{{current_user.name}}</a></p>
+			<p class="navbar-text">Signed in as <a href="{{ url_for('users.profile') }}" class="navbar-link">{{current_user.name}}</a></p>
 			{% endif %}
 			<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated() %}

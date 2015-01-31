@@ -1,34 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
+<h1>Question: </h1>
 <div class="jumbotron">
   <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
-
-  <span>{{ post.pub_date.ctime() }}</span>
-  <p class="text-right">posted by: {{ post.author.name }}</p>
+  <div class="row">
+   <div class="col-md-6"><span>{{ post.pub_date.ctime() }}</span></div>
+   <div class="col-md-6 text-right"> <p>posted by: <code>{{ post.author.name }}</code></p>
+   </div>
+ </div>
 </div>
 {% if current_user.is_authenticated() %}
 <form class="form-register" role="form" method="post" action="">
-    {{ form.csrf_token }}
-    <p>
-      {{ form.body(placeholder="Answer", style="width:400px", class="form-control") }}
-      <span class="error">
-        {% if form.body.errors %}
-        {% for error in form.body.errors %}
-        {{ error }}
-        {% endfor %}
-        {% endif %}
-      </span>
-    </p>
-    <button class="btn btn-primary" type="submit">Post</button>
+  {{ form.csrf_token }}
+  <p>
+    {{ form.body(placeholder="Answer", style="width:400px", class="form-control") }}
+    <span class="error">
+      {% if form.body.errors %}
+      {% for error in form.body.errors %}
+      {{ error }}
+      {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  <button class="btn btn-primary" type="submit">Post</button>
 </form>
 {% endif %}
+<h1>Answers</h1>
 {% for answer in answers %}
 <div class="jumbotron">
-  <p>{{ answer.answer }}</p>
+  <div class="row">
+    <div class="col-md-1">
 
-  <span>{{ answer.pub_date.ctime() }}</span>
-  <p class="text-right">posted by: {{ answer.author.name }}</p>
+      <form method="post" action="">
+        <button type="button" class="btn btn-success btn-lg" type="submit" value="{{ answer.id }} , True">
+          <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+        </button>
+        <br><br>
+        <p class="text-center">{{ answer.votes }}</p>
+        <button type="button" class="btn btn-danger btn-lg" type="submit" value="{{ answer.id }} , False">
+          <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+    <div class="col-md-11">
+      <p>{{ answer.answer }}</p>
+      <span>{{ answer.pub_date.ctime() }}</span>
+      <p class="text-right">posted by: {{ answer.author.name }}</p>
+    </div>
+  </div>
 </div>
 {% endfor %}
 

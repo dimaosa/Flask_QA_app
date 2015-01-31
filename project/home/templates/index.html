@@ -4,7 +4,7 @@
 
   {% if current_user.is_authenticated() %}
 
-  <form class="form-register" role="form" method="post" action="">
+  <form class="form-post" role="form" method="post" action="">
     {{ form.csrf_token }}
     <p>
       {{ form.title(placeholder="title", style="width:400px", class="form-control") }}
@@ -43,11 +43,23 @@
 <br>
 {% for post in posts %}
 <div class="jumbotron">
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.description }}</p>
-  <p><a class="btn btn-primary btn-lg" href="/post/{{ post.id }}" role="button">Open</a></p>
-  <span>{{ post.pub_date.ctime() }}</span>
-  <p class="text-right">posted by: {{ post.author.name }}</p>
+  <div class="row">
+    <div class="col-md-1">
+     <span>Views</span>
+     <span class="badge">{{ post.views }}</span>
+   </div>
+   <div class="col-md-11">
+
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.description }}</p>
+    <p><a class="btn btn-primary btn-lg" href="/post/{{ post.id }}" role="button">Open</a></p>
+    <div class="row">
+     <div class="col-md-6"><span>{{ post.pub_date.ctime() }}</span></div>
+     <div class="col-md-6 text-right"> <p>posted by: <code>{{ post.author.name }}</code></p>
+     </div>
+   </div>
+ </div>
+</div>
 </div>
 <br>
 {% endfor%}
