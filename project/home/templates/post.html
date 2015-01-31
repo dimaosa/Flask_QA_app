@@ -20,11 +20,16 @@
         {% endif %}
       </span>
     </p>
-    <button class="btn btn-primary disabled" type="submit">Post</button>
+    <button class="btn btn-primary" type="submit">Post</button>
 </form>
 {% endif %}
-{% for answer in post.answers %}
+{% for answer in answers %}
+<div class="jumbotron">
+  <p>{{ answer.answer }}</p>
 
+  <span>{{ answer.pub_date.ctime() }}</span>
+  <p class="text-right">posted by: {{ answer.author.name }}</p>
+</div>
 {% endfor %}
 
 {% endblock content %}

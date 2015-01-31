@@ -1,5 +1,5 @@
 from project import app, db
-from project.models import BlogPost, User
+from project.models import BlogPost, User, Answer
 from flask import flash, redirect, session, url_for, render_template, request, Blueprint
 from flask.ext.login import current_user
 
@@ -22,11 +22,21 @@ def show_post(post_id):
 
 	form = AddAnswer(request.form)
 	if form.validate_on_submit():
-		flash( form.body.data )
+		flash(form.body.data)
+		newAnswer = Answer(
+			form.body.data,
+			current_user.id,
+			post_id
+			)
+		db.session.add(newAnswer)
+		db.session.commit()
+		flash(form.body.data)
 
 	post = BlogPost.query.filter_by(id=int(post_id)).first()
+	answers = Answer.query.filter_by(blog_id=int(post_id)).all()
+	answers = reversed(answers)
 
-	return render_template("post.html", post=post, form=form)
+	return render_template("post.html", post=post, form=form, answers=answers)
 
 @home_blueprint.route('/', methods=['GET', 'POST'])
 def home():

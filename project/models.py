@@ -14,8 +14,8 @@ class BlogPost(db.Model):
 	title = db.Column(db.String, nullable=False)
 	description = db.Column(db.String, nullable=False)
 	author_id = db.Column(db.Integer, ForeignKey('users.id'))
+	answer = db.relationship("Answer",  backref="blogpost")
 	pub_date = db.Column(db.DateTime)
-	#answer_id = db.Column(db.Integer, ForeignKey('answers.id'))
 
 	def __init__(self, title, description, author_id, pub_date=None):
 		self.title = title
@@ -35,20 +35,19 @@ class Answer(db.Model):
 	answer = db.Column(db.String, nullable=False)
 	pub_date = db.Column(db.DateTime)
 	votes = db.Column(db.Integer)
-	#post = db.relationship("BlogPost", backref="answers")
+	user_id = db.Column(db.Integer, ForeignKey('users.id'))
+	blog_id = db.Column(db.Integer, ForeignKey('posts.id'))
+	def __init__(self, answer, user_id, blog_id, pub_date=None):
 
-	def __init__(self, answer, pub_date=None):
-		self.title = title
-		self.body = body
+		self.answer = answer
 		if pub_date is None:
 			pub_date = datetime.now()
 		self.pub_date = pub_date
+		self.user_id = user_id
+		self.blog_id = blog_id
 
 	def __repr__(self):
 		return '<Answer - {}, Author - {}>'.format(self.answer, self.author)
-
-
-
 class User(db.Model):
 
 	__tablename__ = "users"
@@ -57,7 +56,8 @@ class User(db.Model):
 	name = db.Column(db.String, nullable=False)
 	email = db.Column(db.String, nullable=False)
 	password = db.Column(db.String, nullable=False)
-	post = db.relationship("BlogPost", backref="author")
+	post = db.relationship("BlogPost",  backref="author")
+	answer = db.relationship("Answer",  backref="author")
 
 
 	def __init__(self, name, email, password):
