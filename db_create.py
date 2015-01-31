@@ -7,8 +7,8 @@ db.create_all()
 
 # insert
 for i in xrange(10):
-	message = "This is {} post".format(i)
-	db.session.add(BlogPost(message, "and I\'m good", 8))
+	message = "Is this a {} question?".format(i)
+	db.session.add(BlogPost(message, "maybe you know", 4))
 
 # commit the changes
 db.session.commit()
