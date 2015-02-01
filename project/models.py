@@ -39,6 +39,7 @@ class Answer(db.Model):
 	votes = db.Column(db.Integer)
 	user_id = db.Column(db.Integer, ForeignKey('users.id'))
 	blog_id = db.Column(db.Integer, ForeignKey('posts.id'))
+	answervote = db.relationship("AnswerVote", backref="answer")
 	
 	def __init__(self, answer, user_id, blog_id, pub_date=None):
 
@@ -62,6 +63,7 @@ class User(db.Model):
 	password = db.Column(db.String, nullable=False)
 	post = db.relationship("BlogPost",  backref="author")
 	answer = db.relationship("Answer",  backref="author")
+	answervote = db.relationship("AnswerVote", backref="author")
 
 	def __init__(self, name, email, password):
 		self.name = name
@@ -82,3 +84,13 @@ class User(db.Model):
 	def __repr__(self):
 		return '{} - {}'.format(self.name, self.email)
 
+class AnswerVote(db.Model):
+	__tablename__ = "answervotes"
+
+	id = db.Column(db.Integer, primary_key=True)
+	answer_id = db.Column(db.Integer, ForeignKey('answers.id'))
+	user_id = db.Column(db.Integer, ForeignKey('users.id'))
+
+	def __init__(self, answer_id, user_id):
+		self.answer_id = answer_id;
+		self.user_id = user_id;

@@ -27,33 +27,25 @@
 </form>
 {% endif %}
 <h1>Answers:</h1>
-{% for answer in answers %}
+{% for answerpost in answerposts %}
 <div class="jumbotron">
   <div class="row">
     <div class="row">
       <div class="col-md-1 col-xs-2">
+        {% if current_user.is_authenticated() %}
         <form method="post" action="">
-         <button  class="btn btn-success btn-lg" name="action" type="submit" value="{{ answer.id }} , True">
-            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-          </button>
-          <br><br>
-
-          <p class="text-center">{{ answer.votes }}</p>
-
-          <button class="btn btn-danger btn-lg" type="submit" name="action" value="{{ answer.id }} , False">
-            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+         <button  class="btn btn-default btn-lg" name="action" type="submit" value="{{ answerpost.answer.id }} , True">
+            <span class="glyphicon glyphicon-heart{% if not answerpost.button_state %}-empty{% endif %}" aria-hidden="true"></span>
           </button>
         </form>
+        {% endif %} 
+        <p class="text-center">Likes:<br><span class="badge">{{ answerpost.answer.votes }}</span></p>
       </div> 
       <div class="col-md-11 col-xs-10">
-        <p>{{ answer.answer }}</p>
-        <p>{{ answer.pub_date.ctime() }}</p>
-        <p class="text-right">posted by: <code>{{ answer.author.name }}</code></p>
+        <p>{{ answerpost.answer.answer }}</p>
+        <p>{{ answerpost.answer.pub_date.ctime() }}</p>
+        <p class="text-right">posted by: <code>{{ answerpost.answer.author.name }}</code></p>
     </div>
-    <div class="row">
-     <!-- <div class="col-md-6 col-xs-6"><p>{{ answer.pub_date.ctime() }}</p></div>
-     <div class="col-md-6 col-xs-6 text-right"> <p>posted by: <code>{{ answer.author.name }}</code></p> -->
-     </div>
    </div>
  </div>
 </div>
