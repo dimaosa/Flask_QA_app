@@ -31,27 +31,30 @@ def answerVotesCounter(answer_id, state):
 @home_blueprint.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
 
-
 	form = AddAnswer(request.form)
 
+	#Post new Answer
 	if form.validate_on_submit():
-		newAnswer = Answer(
-			form.body.data,
-			current_user.id,
-			post_id
-			)
+		newAnswer = Answer( form.body.data, current_user.id, post_id )
 		db.session.add(newAnswer)
 
+	#Like Answer
 	if request.method == 'POST':
-		print "in POST"
+		if 'True' in request.form['action']:
+			answerVotesCounter(request.form['action'].split(',')[0], True)
+		elif 'False' in request.form['action']:
+			answerVotesCounter(request.form['action'].split(',')[0], False)
 
-	post = BlogPost.query.filter_by(id=int(post_id)).first()
-	post.views +=1
+	#Increase number of views
+	question = BlogPost.query.filter_by(id=int(post_id)).first()
+	question.views +=1
+
 	db.session.commit()
-	answers = Answer.query.filter_by(blog_id=int(post_id)).all()
+	
+	answers = Answer.query.filter_by(blog_id=int(post_id)).order_by(Answer.id).all()
 	answers = reversed(answers)
 
-	return render_template("post.html", post=post, form=form, answers=answers)
+	return render_template("post.html", post=question, form=form, answers=answers)
 
 @home_blueprint.route('/', methods=['GET', 'POST'])
 def home():
@@ -72,6 +75,5 @@ def home():
 
  	posts = db.session.query(BlogPost).order_by(BlogPost.id).all()
  	posts = reversed(posts)
- 	flash(posts)
 	return render_template("index.html", form=form, posts=posts)
 

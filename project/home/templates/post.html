@@ -5,8 +5,8 @@
   <h2>{{ post.title }}</h2>
   <p>{{ post.description }}</p>
   <div class="row">
-   <div class="col-md-6"><span>{{ post.pub_date.ctime() }}</span></div>
-   <div class="col-md-6 text-right"> <p>posted by: <code>{{ post.author.name }}</code></p>
+   <div class="col-md-6 col-xs-6"><p>{{ post.pub_date.ctime() }}</p></div>
+   <div class="col-md-6 col-xs-6 text-right"> <p>posted by: <code>{{ post.author.name }}</code></p>
    </div>
  </div>
 </div>
@@ -26,29 +26,36 @@
   <button class="btn btn-primary" type="submit">Post</button>
 </form>
 {% endif %}
-<h1>Answers</h1>
+<h1>Answers:</h1>
 {% for answer in answers %}
 <div class="jumbotron">
   <div class="row">
-    <div class="col-md-1 col-xs-2">
+    <div class="row">
+      <div class="col-md-1 col-xs-2">
+        <form method="post" action="">
+         <button  class="btn btn-success btn-lg" name="action" type="submit" value="{{ answer.id }} , True">
+            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+          </button>
+          <br><br>
 
-      <form method="post" action="">
-        <button type="button" class="btn btn-success btn-lg" type="submit" value="{{ answer.id }} , True">
-          <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-        </button>
-        <br><br>
-        <p class="text-center">{{ answer.votes }}</p>
-        <button type="button" class="btn btn-danger btn-lg" type="submit" value="{{ answer.id }} , False">
-          <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-        </button>
-      </form>
+          <p class="text-center">{{ answer.votes }}</p>
+
+          <button class="btn btn-danger btn-lg" type="submit" name="action" value="{{ answer.id }} , False">
+            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div> 
+      <div class="col-md-11 col-xs-10">
+        <p>{{ answer.answer }}</p>
+        <p>{{ answer.pub_date.ctime() }}</p>
+        <p class="text-right">posted by: <code>{{ answer.author.name }}</code></p>
     </div>
-    <div class="col-md-11 col-xs-10">
-      <p>{{ answer.answer }}</p>
-      <span>{{ answer.pub_date.ctime() }}</span>
-      <p class="text-right">posted by: {{ answer.author.name }}</p>
-    </div>
-  </div>
+    <div class="row">
+     <!-- <div class="col-md-6 col-xs-6"><p>{{ answer.pub_date.ctime() }}</p></div>
+     <div class="col-md-6 col-xs-6 text-right"> <p>posted by: <code>{{ answer.author.name }}</code></p> -->
+     </div>
+   </div>
+ </div>
 </div>
 {% endfor %}
 
