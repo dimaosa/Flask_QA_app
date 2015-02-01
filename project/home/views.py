@@ -24,6 +24,7 @@ def answerVoteAction(args):
 		answer_id = answer.id
 		).first()
 
+	#if Like present, then disLike and vise versa
 	if bool(answerVote):
 		answer.votes -= 1
 		db.session.delete(answerVote)
@@ -43,6 +44,7 @@ def answerVoteAction(args):
 @home_blueprint.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
 
+	#retrieve data from form
 	form = AddAnswer(request.form)
 
 	#Post new Answer
@@ -62,7 +64,7 @@ def show_post(post_id):
 	answers = Answer.query.filter_by(blog_id=int(post_id)).order_by(Answer.id).all()
 	answers = answers[::-1]
 
-	#Create anserposts, by merging button state and answer
+	#Create answerposts, by merging button state and answer
 	answerposts = []
 	current_user_id = int()
 	if current_user.is_authenticated():
@@ -80,12 +82,14 @@ def show_post(post_id):
 				)
 			)
 		)
+
 	return render_template("post.html", post=question, form=form, 
 		answerposts=answerposts)
 
 @home_blueprint.route('/', methods=['GET', 'POST'])
 def home():
 
+	#retrieve form form
 	form = AddPost(request.form)
 	try:
 		if form.validate_on_submit():
@@ -101,6 +105,6 @@ def home():
 		flash("Some error in db")
 
  	posts = db.session.query(BlogPost).order_by(BlogPost.id).all()
- 	posts = reversed(posts)
+ 	posts = [::-1]
 	return render_template("index.html", form=form, posts=posts)
 
